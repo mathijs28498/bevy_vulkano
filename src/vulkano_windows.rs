@@ -19,6 +19,7 @@ use vulkano_util::{
         WindowResizeConstraints as VulkanoWindowResizeConstraints,
     },
 };
+use vulkano::image::ImageUsage;
 use winit::dpi::{LogicalPosition, LogicalSize, PhysicalPosition};
 
 use crate::VulkanoWinitConfig;
@@ -228,6 +229,11 @@ impl BevyVulkanoWindows {
                 position.map(|p| [p.x as f32, p.y as f32]),
             ),
             move |ci| {
+                ci.image_usage = ImageUsage {
+                    input_attachment: true,
+                    transfer_dst: true,
+                    ..ImageUsage::color_attachment()
+                };
                 ci.image_format = Some(vulkano::format::Format::B8G8R8A8_SRGB);
             },
         );
